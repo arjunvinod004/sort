@@ -1,0 +1,496 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+       body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f0f0f0;
+}
+
+.board {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.column {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  width: 30%;
+}
+
+h2 {
+  text-align: center;
+}
+
+.task-list {
+  list-style-type: none;
+  padding: 0;
+  min-height: 200px;
+}
+
+.task-item {
+  background-color: #e0e0e0;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin: 5px 0;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.task-item:hover {
+  background-color: #d0d0d0;
+}
+
+.task-placeholder {
+  background-color: #f0f0f0;
+  border: 1px dashed #ccc;
+  margin: 5px 0;
+  height: 40px; 
+}
+
+
+    </style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Board</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+</head>
+<body>
+  <div class="board row">
+    <div class="column col-md-3 col-sm-6 col-12 " id="todo">
+      <h2>To Do</h2>
+      <ul class="task-list">
+        <li class="task-item" id="task-1">Task 1</li>
+        <li class="task-item" id="task-2">Task 2</li>
+      </ul>
+    </div>
+    <div class="column col-md-3 col-sm-6 col-12 mb-2" id="in-progress">
+      <h2>In Progress</h2>
+      <ul class="task-list">
+        <li class="task-item" id="task-3">Task 3</li>
+      </ul>
+    </div>
+    <div class="column col-md-3 col-sm-6 col-12" id="done">
+      <h2>Done</h2>
+      <ul class="task-list">
+        <li class="task-item" id="task-4">Task 4</li>
+      </ul>
+    </div>
+  </div>
+  <script src="draggable.js"></script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sortable Drag and Drop</title>
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body{
+    background: #000;
+    }
+    .column{
+    justify-content: space-around;
+    width: 100%;
+    
+    }
+    .draggable {
+      border: 1px solid #ccc;
+      padding: 1%;
+      margin: 20px 0;
+      cursor: move;
+      background-color: #f8f9fa;
+      justify-content: space-around;
+    }
+    .droppable {
+      min-height: 200px;
+      border: 2px solid #ccc;
+      padding: 10px;
+      margin: 10px;
+    }
+
+    .centered-button {
+            position: absolute;
+            top: -30px; /* Adjust this value to position the heading */
+            left: 50%;
+            transform: translateX(-50%);
+            background: #343a40; /* Background color for heading */
+            color: #fff; /* Text color */
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        .deleteButton{
+        position: relative;
+        float: right;
+        bottom: 34px;
+        }
+          
+  </style>
+</head>
+<body>
+  
+  
+  <div class="container" style="padding: 0px !important; text-align: center;">
+
+
+    <div class="row">
+   
+      <div class="col droppable">
+        <h5 style="text-align: center ;color: #fff ">todo</h5>
+        <div id="sortable1">
+          <!-- <div class="draggable" id="item1"  ><input type="text" class="form-control text-center" value="Item First 1">
+            <button  onclick="todobtn1()" class="btn btn-danger deleteButton"  "><i class="bi bi-trash3" ></i></button>
+           
+          </div> -->
+        <div class="draggable" id="item1"   ><input type="text" class="form-control text-center" value="Item First 1">
+          <button  onclick="todobtn1()" class="btn btn-danger deleteButton"  "><i class="bi bi-trash3" ></i></button>
+         
+        </div>
+        <div class="draggable" id="item2"   ><input type="text" class="form-control text-center" value="Item First 2"> <button  onclick="todobtn2()"  class="btn btn-danger deleteButton"  "><i class="bi bi-trash3" ></i></button></div>
+        <div class="draggable"   id="item3"><input type="text" class="form-control text-center" value="Item First 3"> <button onclick="todobtn3()"  class="btn btn-danger deleteButton"  "><i class="bi bi-trash3" ></i></button></div>
+        <div class="draggable"  id="item4"><input type="text" class="form-control text-center" value="Item First 4"> <button onclick="todobtn4()"  class="btn btn-danger deleteButton"  "><i class="bi bi-trash3" ></i></button></div>
+      </div>
+
+      <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Add</button>
+      </div>
+     
+     
+      <div class="col droppable" >
+        <h5 style="text-align: center ;color: #fff ">Progress</h5>
+        <div id="sortable2">
+        
+        <div class="draggable"  id="item1"><input type="text" class="form-control text-center" value="Item Second 1">
+          <button  onclick="todobtn1()" class="btn btn-danger deleteButton"  "><i class="bi bi-trash3" ></i></button></div>
+        <div class="draggable"  id="item2"><input type="text" class="form-control text-center" value="Item Second 2">
+          <button  onclick="todobtn1()" class="btn btn-danger deleteButton"  "><i class="bi bi-trash3" ></i></button></div>
+        <div class="draggable"  id="item3"><input type="text" class="form-control text-center" value="Item Second 3">  <button  onclick="todobtn1()" class="btn btn-danger deleteButton"  "><i class="bi bi-trash3" ></i></button></div>
+        <div class="draggable"  id="item4"><input type="text" class="form-control text-center" value="Item Second 4">  <button  onclick="todobtn1()" class="btn btn-danger deleteButton"  "><i class="bi bi-trash3" ></i></button></div>
+      </div>
+      <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal1">Add</button>
+      </div>
+      <div class="col droppable" >
+        <h5 style="text-align: center; color: #fff">Done</h5>
+        <div id="sortable3">
+       
+        <div class="draggable"  id="item1"><input type="text" class="form-control text-center" value="Item Third 1">  <button  onclick="todobtn1()" class="btn btn-danger deleteButton"  "><i class="bi bi-trash3" ></i></button></div>
+        <div class="draggable"  id="item2"><input type="text" class="form-control text-center" value="Item Third 2">  <button  onclick="todobtn1()" class="btn btn-danger deleteButton"  "><i class="bi bi-trash3" ></i></button></div>
+        <div class="draggable"  id="item3"><input type="text" class="form-control text-center" value="Item Third 3">  <button  onclick="todobtn1()" class="btn btn-danger deleteButton"  "><i class="bi bi-trash3" ></i></button></div>
+        <div class="draggable"  id="item4"><input type="text" class="form-control text-center" value="Item Second 4">  <button  onclick="todobtn1()" class="btn btn-danger deleteButton"  "><i class="bi bi-trash3" ></i></button></div>
+      </div>
+      <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal2">Add</button>
+      </div>
+    
+    
+    </div>
+
+
+
+  </div>
+
+  <!-- modal -->
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="text" class="form-control taskvalue" placeholder="Enter Your Task">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary todobtn" data-bs-dismiss="modal">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="text" class="form-control taskvalue1" placeholder="Enter Your Task">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary progressbtn" data-bs-dismiss="modal">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="text" class="form-control taskvalue2" placeholder="Enter Your Task">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary donebtn" data-bs-dismiss="modal">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+
+ 
+
+   <script>
+
+
+// delete
+
+function todobtn1(){
+  alert('hiii')
+  const element = document.getElementById("item1");
+element.remove();
+}
+
+function todobtn2(){
+  alert('hiii')
+  const element = document.getElementById("item2");
+  element.remove();
+}
+
+function todobtn3(){
+  alert('hiii')
+  const element = document.getElementById("item3");
+  element.remove();
+}
+
+function todobtn4(){
+  alert('hiii')
+  const element = document.getElementById("item4");
+  element.remove();
+}
+$(document).ready(function(){
+    $(".draggable").draggable();
+});
+
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const sortable1 = document.getElementById('sortable1');
+            const sortable2 = document.getElementById('sortable2');
+            const sortable3 = document.getElementById('sortable3');
+            const todobtn = document.querySelector('.todobtn');
+            const progressbtn=document.querySelector('.progressbtn');
+            const donebtn=document.querySelector('.donebtn');
+            const todoitem1 = document.getElementById('item1');
+            const todoitem2 = document.getElementById('item2');
+            const todoitem3 = document.getElementById('item3');
+            const todoitem4 = document.getElementById('item4');
+
+// Enable editing on double-click
+todoitem1.addEventListener('dblclick', () => {
+    todoitem1.setAttribute('contenteditable', 'true');
+    todoitem1.classList.add('editing'); // Optional: add a class for styling
+    todoitem1.setAttribute('draggable', 'true'); // Re-enable dragging
+    // todoitem1.removeAttribute('draggable'); // Disable dragging while editing
+    todoitem1.focus(); // Focus on the item for editing
+    delete todoitem1
+});
+
+// Handle when the user finishes editing
+todoitem1.addEventListener('blur', () => {
+    todoitem1.removeAttribute('contenteditable');
+    todoitem1.classList.remove('editing');
+    todoitem1.setAttribute('draggable', 'true'); // Re-enable dragging
+});
+
+todoitem2.addEventListener('dblclick', () => {
+    todoitem2.setAttribute('contenteditable', 'true');
+    todoitem2.classList.add('editing'); // Optional: add a class for styling
+    todoitem2.removeAttribute('draggable'); // Disable dragging while editing
+    todoitem2.focus(); // Focus on the item for editing
+});
+
+// Handle when the user finishes editing
+todoitem2.addEventListener('blur', () => {
+    todoitem2.removeAttribute('contenteditable');
+    todoitem2.classList.remove('editing');
+    todoitem2.setAttribute('draggable', 'true'); // Re-enable dragging
+});
+
+todoitem3.addEventListener('dblclick',()=>{
+  todoitem3.setAttribute('contenteditable');
+  todoitem3.classList.add('editing');
+  todoitem3.removeAttribute('draggable');
+  todoitem3.focus()
+})
+
+todoitem3.addEventListener('blur',()=>{
+  todoitem3.removeAttribute('contenteditable');
+  todoitem3.classList.remove('editing');
+  todoitem3.setAttribute('draggable','true');
+})
+
+todoitem4.addEventListener('dblclick',()=>{
+  todoitem4.setAttribute('contenteditable');
+  todoitem4.classList.add('editing');
+  todoitem4.removeAttribute('draggable');
+  todoitem4.focus()
+})
+
+todoitem4.addEventListener('blur',()=>{
+  todoitem4.removeAttribute('contenteditable');
+  todoitem4.classList.remove('editing');
+  todoitem4.setAttribute('draggable','true');
+})
+
+  // sortable
+            const sortableOptions = {
+                group: 'shared',
+                animation: 150,
+                onStart: (event) => {
+                    console.log('Dragging started for item with ID:', event.item.id);
+                },
+                onEnd: (event) => {
+                    console.log('Item moved with ID:', event.item.id);
+                    console.log('New position:', event.newIndex);
+                    console.log('Old position:', event.oldIndex);
+                }
+            };
+
+            Sortable.create(sortable1, sortableOptions);
+            Sortable.create(sortable2, sortableOptions);
+            Sortable.create(sortable3, sortableOptions);
+
+          //add
+            todobtn.addEventListener('click', () => {
+                const inputField = document.querySelector('.taskvalue');
+                const inputValue = inputField.value.trim();
+                if (inputValue) {
+                    // Create a new list item
+                    const newItem = document.createElement('div');
+                    newItem.className ='draggable'
+                    newItem.textContent = inputValue;
+                    newItem.contentEditable='true'
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.textContent = 'Delete';
+                    deleteBtn.className='btn btn-danger deleteButton'
+                    
+                    deleteBtn.id='item5'
+                    const uniqueId = `item-${Date.now()}`;
+                    // Optionally set an ID if needed
+                    newItem.id = uniqueId;
+                
+                    // Append the new item to sortable1
+                    sortable1.appendChild(newItem);
+                    sortable1.appendChild(deleteBtn);
+
+                    deleteBtn.addEventListener('click', () => {
+            const element = document.getElementById(uniqueId);
+           if(element){
+            element.remove();
+           }
+           deleteBtn.remove();
+        });
+                    console.log(newItem.id);
+                    
+                    // Clear the input field
+                    inputField.value = '';
+                } else {
+                    alert('Please enter a value.');
+                }
+                
+            });
+
+            progressbtn.addEventListener('click', () => {
+                const inputField = document.querySelector('.taskvalue1');
+                const inputValue = inputField.value.trim();
+                if (inputValue) {
+                    // Create a new list item
+                    const newItem = document.createElement('div');
+                    newItem.className ='draggable'
+                    newItem.textContent = inputValue;
+                    // Optionally set an ID if needed
+                    newItem.id = `item-${Date.now()}`;
+                  
+                    // Append the new item to sortable1
+                    sortable2.appendChild(newItem);
+                   
+                    console.log(newItem.id);
+                    
+                    // Clear the input field
+                    inputField.value = '';
+                } else {
+                    alert('Please enter a value.');
+                }
+            });
+
+            donebtn.addEventListener('click', () => {
+                const inputField = document.querySelector('.taskvalue2');
+                const inputValue = inputField.value.trim();
+                if (inputValue) {
+                    // Create a new list item
+                    const newItem = document.createElement('div');
+                    newItem.className ='draggable'
+                    newItem.textContent = inputValue;
+                    // Optionally set an ID if needed
+                    newItem.id = `item-${Date.now()}`;
+                  
+                    // Append the new item to sortable1
+                    sortable3.appendChild(newItem);
+                   
+                    console.log(newItem.id);
+                    
+                    // Clear the input field
+                    inputField.value = '';
+                } else {
+                    alert('Please enter a value.');
+                }
+            });
+
+
+            
+        });
+
+        
+
+
+        
+    </script>
+
+ 
+</body>
+</html>
